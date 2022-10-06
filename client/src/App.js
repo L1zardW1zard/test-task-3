@@ -24,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home pageAmount={amount} />} />
         <Route path="/superhero/:id" element={<FullHero />} />
+        <Route path="/superhero/:id/edit" element={<Crate />} />
         <Route path="/add" element={<Crate />} />
       </Routes>
     </div>

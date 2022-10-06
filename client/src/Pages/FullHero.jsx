@@ -10,12 +10,10 @@ const FullHero = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/superhero/" + id)
-      .then((res) => res.json())
-      .then((data) => {
-        setHero(data);
-      });
-  }, []);
+    axios.get("/api/superhero/" + id).then((res) => {
+      setHero(res.data);
+    });
+  }, [id]);
 
   useEffect(() => {
     console.log(hero);
@@ -27,11 +25,15 @@ const FullHero = () => {
     alert("Superhero deleted");
   };
 
+  const onClickEdit = () => {
+    navigate("/superhero/" + id + "/edit");
+  };
+
   return (
     <div className="hero-item-full">
       <div className="button-container">
         <div className="button-wrapper">
-          <button type="button" className="edit-btn">
+          <button type="button" className="edit-btn" onClick={onClickEdit}>
             Edit
           </button>
           <button type="button" className="delete-btn" onClick={onClickDelete}>

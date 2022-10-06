@@ -1,5 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import UploadedImage from "../components/UploadedImage";
 
 const Crate = () => {
   const [nickname, setNickname] = useState("");
@@ -7,11 +11,14 @@ const Crate = () => {
   const [originDescription, setOriginDescription] = useState("");
   const [superpowers, setSuperpowers] = useState("");
   const [catchPhrase, setCatchPhrase] = useState("");
-  const [imageURL, setImageURL] = useState();
+  //const [imageURL, setImageURL] = useState();
   const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState([]);
   const inputFileRef = useRef(null);
 
-  const [images, setImages] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditing = Boolean(id);
 
   const NicknameOnChange = (e) => {
     setNickname(e.target.value);
@@ -32,10 +39,10 @@ const Crate = () => {
   const changeFileHandler = async (e) => {
     try {
       const formData = new FormData();
-      const file = e.target.files[0];
+      const file = e.target.files[0]; // inputFileRef.current.files[0]
       formData.append("image", file);
       const { data } = await axios.post("/upload", formData);
-      setImageURL(data.url);
+      //setImageURL(data.url);
       setImages((images) => [...images, data.url]);
     } catch (error) {
       console.log(error);
@@ -44,17 +51,19 @@ const Crate = () => {
   };
 
   const onClickRemoveFile = (e) => {
-    setImages((images) => images.splice(-1));
-    setImageURL("");
+    console.log(images[e.target.id]);
+    setImages(images.filter((img) => img !== images[e.target.id]));
   };
 
   const clearData = () => {
+    // change to redux
     setNickname("");
     setRealName("");
     setOriginDescription("");
     setSuperpowers("");
     setCatchPhrase("");
-    setImageURL("");
+    //setImageURL("");
+    setImages([]);
   };
 
   const submitHandler = async (e) => {
@@ -63,9 +72,8 @@ const Crate = () => {
       setLoading(true);
       console.log("Submit event");
 
-      //setImages((images) => [...images, data.url]);
-
       const superhero = {
+        _id: id,
         nickname,
         real_name: realName,
         origin_description: originDescription,
@@ -73,13 +81,34 @@ const Crate = () => {
         catch_phrase: catchPhrase,
         images,
       };
-      const { data } = await axios.post("/api/superhero", superhero);
+      const { data } = isEditing
+        ? await axios.put("/api/superhero", superhero)
+        : await axios.post("/api/superhero", superhero);
+
       if (data) {
         setLoading(false);
         clearData();
+        navigate("/");
       }
     } catch (error) {}
   };
+
+  useEffect(() => {
+    if (id) {
+      axios.get("/api/superhero/" + id).then(({ data }) => {
+        setNickname(data.nickname);
+        setRealName(data.real_name);
+        setOriginDescription(data.origin_description);
+        setSuperpowers(data.superpowers);
+        setCatchPhrase(data.catch_phrase);
+        setImages(data.images);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(images);
+  }, [images]);
 
   return (
     <>
@@ -120,13 +149,19 @@ const Crate = () => {
             Upload Image
           </button>
         </div>
-        {imageURL && (
+        {images && (
           <>
-            <div className="upload-image">
-              <img src={`http://localhost:5000${imageURL}`} alt="uploaded" />
-              <button type="button" onClick={onClickRemoveFile}>
-                Delete
-              </button>
+            <div className="uploaded-images-wrapper">
+              {images.map((img, i) => {
+                return (
+                  <UploadedImage
+                    img={img}
+                    key={i}
+                    i={i}
+                    onClickRemoveFile={onClickRemoveFile}
+                  />
+                );
+              })}
             </div>
           </>
         )}
@@ -139,7 +174,7 @@ const Crate = () => {
           hidden
         />
         <button type="submit" disabled={loading}>
-          Add
+          {isEditing ? "Save" : "Add"}
         </button>
       </form>
     </>
