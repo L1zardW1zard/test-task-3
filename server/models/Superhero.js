@@ -6,7 +6,7 @@ const Superhero = new mongoose.Schema({
   origin_description: { type: String },
   superpowers: { type: String },
   catch_phrase: { type: String },
-  Images: { type: Array },
+  images: { type: Array },
 });
 
 export default mongoose.model("Superhero", Superhero);
