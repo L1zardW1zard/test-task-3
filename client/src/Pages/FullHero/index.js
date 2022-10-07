@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { decrementHeroAmount } from "../../redux/slices/heroSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  decrementHeroAmount,
+  setSelectedHero,
+} from "../../redux/slices/heroSlice";
 
 import styles from "./FullHero.module.scss";
 
 const FullHero = () => {
-  const [hero, setHero] = useState({});
+  const hero = useSelector((state) => state.hero.selectedHero);
+  //const [hero, setHero] = useState({});
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -16,7 +20,7 @@ const FullHero = () => {
 
   useEffect(() => {
     axios.get("/api/superhero/" + id).then((res) => {
-      setHero(res.data);
+      dispatch(setSelectedHero(res.data));
     });
   }, [id]);
 

@@ -2,7 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   totalAmount: 0,
-  //currentHero: {},
+  items: [],
+  selectedHero: {
+    nickname: "",
+    real_name: "",
+    origin_description: "",
+    superpowers: "",
+    catch_phrase: "",
+    images: [],
+  },
 };
 
 export const heroSlice = createSlice({
@@ -18,10 +26,56 @@ export const heroSlice = createSlice({
     decrementHeroAmount(state) {
       state.totalAmount--;
     },
+    setItems(state, action) {
+      state.items = action.payload;
+    },
+    setSelectedHero(state, action) {
+      state.selectedHero = action.payload;
+    },
+    setHeroNickname(state, action) {
+      state.selectedHero.nickname = action.payload;
+    },
+    setHeroRealName(state, action) {
+      state.selectedHero.real_name = action.payload;
+    },
+    setHeroOriginDescription(state, action) {
+      state.selectedHero.origin_description = action.payload;
+    },
+    setHeroSuperpowers(state, action) {
+      state.selectedHero.superpowers = action.payload;
+    },
+    setHeroCatchPhrase(state, action) {
+      state.selectedHero.catch_phrase = action.payload;
+    },
+    setHeroImages(state, action) {
+      state.selectedHero.images = action.payload;
+    },
+    setDefaultHero(state) {
+      state.selectedHero = {
+        nickname: "",
+        real_name: "",
+        origin_description: "",
+        superpowers: "",
+        catch_phrase: "",
+        images: [],
+      };
+    },
   },
 });
 
-export const { setHeroAmount, incrementHeroAmount, decrementHeroAmount } =
-  heroSlice.actions;
+export const {
+  setHeroAmount,
+  incrementHeroAmount,
+  decrementHeroAmount,
+  setItems,
+  setSelectedHero,
+  setHeroNickname,
+  setHeroRealName,
+  setHeroOriginDescription,
+  setHeroSuperpowers,
+  setHeroCatchPhrase,
+  setHeroImages,
+  setDefaultHero,
+} = heroSlice.actions;
 
 export default heroSlice.reducer;

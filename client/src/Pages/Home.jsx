@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useSelector, useDispatch } from "react-redux";
+import { setItems } from "../redux/slices/heroSlice";
 
 import Hero from "../components/Hero";
 
 const Home = ({ heroAmount }) => {
   const ITEMS_PER_PAGE = 5;
+  const dispatch = useDispatch();
 
-  const [heroes, setHeroes] = useState([]);
+  const heroes = useSelector((state) => state.hero.items);
+
+  //const [heroes, setHeroes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetch(`/api/superheroes/?page=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
-        setHeroes(data);
+        dispatch(setItems(data));
       });
   }, [currentPage]);
 
