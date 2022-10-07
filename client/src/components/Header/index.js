@@ -14,9 +14,7 @@ const Header = () => {
 
   return (
     <header>
-      <Link to={""} onClick={onClickClearSelectedHero}>
-        Test task for JSNinjas
-      </Link>
+      <Link to={""}>Test task for JSNinjas</Link>
       <Link to={"add"} onClick={onClickClearSelectedHero}>
         Add new
       </Link>

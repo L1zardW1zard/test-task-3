@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   totalAmount: 0,
@@ -12,6 +13,14 @@ const initialState = {
     images: [],
   },
 };
+
+export const fetchHeroes = createAsyncThunk(
+  "hero/fetchHeroes",
+  async (currentPage) => {
+    const { data } = await axios.get(`/api/superheroes/?page=${currentPage}`);
+    return data;
+  }
+);
 
 export const heroSlice = createSlice({
   name: "hero",
@@ -59,6 +68,11 @@ export const heroSlice = createSlice({
         catch_phrase: "",
         images: [],
       };
+    },
+  },
+  extraReducers: {
+    [fetchHeroes.fulfilled]: (state, action) => {
+      state.items = action.payload;
     },
   },
 });

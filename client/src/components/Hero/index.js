@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 import styles from "./Hero.module.scss";
 
-const Hero = ({ hero }) => {
+const Hero = ({ hero, index }) => {
   return (
-    <div className={styles.heroItem}>
+    <div className={styles.heroItem} data-testid="hero">
       <Link to={"/superhero/" + hero._id}>
         <div className={styles.imagePrewiev}>
           {hero.images.length !== 0 ? (
