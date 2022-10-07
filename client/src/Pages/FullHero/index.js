@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { decrementHeroAmount } from "../../redux/slices/heroSlice";
+
+import styles from "./FullHero.module.scss";
 
 const FullHero = () => {
   const [hero, setHero] = useState({});
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -15,14 +20,10 @@ const FullHero = () => {
     });
   }, [id]);
 
-  useEffect(() => {
-    console.log(hero);
-  }, [hero]);
-
   const onClickDelete = async () => {
     await axios.delete("/api/superhero/" + id); // change to redux-toolkit
     navigate("/");
-    alert("Superhero deleted");
+    dispatch(decrementHeroAmount());
   };
 
   const onClickEdit = () => {
@@ -30,21 +31,32 @@ const FullHero = () => {
   };
 
   return (
-    <div className="hero-item-full">
-      <div className="button-container">
-        <div className="button-wrapper">
-          <button type="button" className="edit-btn" onClick={onClickEdit}>
+    <div className={styles.heroItemFull}>
+      <div className={styles.buttonContainer}>
+        <div className={styles.buttonWrapper}>
+          <button
+            type="button"
+            className={styles.editBtn}
+            onClick={onClickEdit}
+          >
             Edit
           </button>
-          <button type="button" className="delete-btn" onClick={onClickDelete}>
+          <button
+            type="button"
+            className={styles.deleteBtn}
+            onClick={onClickDelete}
+          >
             Delete
           </button>
         </div>
       </div>
-      <div className="hero-image-wrapper">
-        {!!hero.images && <img src={hero.images[0]} alt="empty" />}
+      <div className={styles.heroImageWrapper}>
+        {hero.images &&
+          hero.images.map((img, i) => {
+            return <img src={img} alt="empty" key={i} />;
+          })}
       </div>
-      <div className="hero-info">
+      <div className={styles.heroInfo}>
         <h3>{hero.nickname}</h3>
         <h5>{hero.real_name}</h5>
         <p>origin description: {hero.origin_description}</p>

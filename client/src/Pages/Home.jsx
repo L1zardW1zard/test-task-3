@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 
 import Hero from "../components/Hero";
 
-const Home = ({ pageAmount }) => {
+const Home = ({ heroAmount }) => {
   const ITEMS_PER_PAGE = 5;
 
   const [heroes, setHeroes] = useState([]);
@@ -28,7 +28,7 @@ const Home = ({ pageAmount }) => {
           <div>Can't find any superheroes</div>
         )}
       </div>
-      {!!pageAmount && (
+      {!!heroAmount && (
         <ReactPaginate
           className="pagination"
           breakLabel="..."
@@ -37,7 +37,7 @@ const Home = ({ pageAmount }) => {
             setCurrentPage(event.selected + 1);
           }}
           pageRangeDisplayed={ITEMS_PER_PAGE}
-          pageCount={pageAmount / ITEMS_PER_PAGE}
+          pageCount={Math.ceil(heroAmount / ITEMS_PER_PAGE)}
           previousLabel="<"
           renderOnZeroPageCount={null}
         />

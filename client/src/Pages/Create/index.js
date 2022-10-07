@@ -2,20 +2,24 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { incrementHeroAmount } from "../../redux/slices/heroSlice";
 
-import UploadedImage from "../components/UploadedImage";
+import styles from "./Create.module.scss";
+import UploadedImages from "../../components/UploadedImages";
 
-const Crate = () => {
+const Create = () => {
+  const dispatch = useDispatch();
+  // Change to Redux?
   const [nickname, setNickname] = useState("");
   const [realName, setRealName] = useState("");
   const [originDescription, setOriginDescription] = useState("");
   const [superpowers, setSuperpowers] = useState("");
   const [catchPhrase, setCatchPhrase] = useState("");
-  //const [imageURL, setImageURL] = useState();
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
+  //
   const inputFileRef = useRef(null);
-
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditing = Boolean(id);
@@ -42,11 +46,9 @@ const Crate = () => {
       const file = e.target.files[0]; // inputFileRef.current.files[0]
       formData.append("image", file);
       const { data } = await axios.post("/upload", formData);
-      //setImageURL(data.url);
       setImages((images) => [...images, data.url]);
     } catch (error) {
       console.log(error);
-      alert("Can't load file");
     }
   };
 
@@ -56,13 +58,11 @@ const Crate = () => {
   };
 
   const clearData = () => {
-    // change to redux
     setNickname("");
     setRealName("");
     setOriginDescription("");
     setSuperpowers("");
     setCatchPhrase("");
-    //setImageURL("");
     setImages([]);
   };
 
@@ -89,6 +89,7 @@ const Crate = () => {
         setLoading(false);
         clearData();
         navigate("/");
+        dispatch(incrementHeroAmount());
       }
     } catch (error) {}
   };
@@ -105,10 +106,6 @@ const Crate = () => {
       });
     }
   }, []);
-
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
 
   return (
     <>
@@ -143,18 +140,17 @@ const Crate = () => {
           value={catchPhrase}
           onChange={catchPhraseOnChange}
         />
-        <div className="upload-wrapper">
-          {/* <div className="empty-block"></div> */}
+        <div className={styles.uploadWrapper}>
           <button type="button" onClick={() => inputFileRef.current.click()}>
             Upload Image
           </button>
         </div>
         {images && (
           <>
-            <div className="uploaded-images-wrapper">
+            <div className={styles.uploadedImagesWrapper}>
               {images.map((img, i) => {
                 return (
-                  <UploadedImage
+                  <UploadedImages
                     img={img}
                     key={i}
                     i={i}
@@ -181,4 +177,4 @@ const Crate = () => {
   );
 };
 
-export default Crate;
+export default Create;

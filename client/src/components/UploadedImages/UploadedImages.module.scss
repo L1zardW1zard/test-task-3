@@ -1,0 +1,22 @@
+.uploadedImageItem {
+  margin: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .deleteBtn {
+    margin: 0 5px;
+  }
+
+  * {
+    margin: 5px 0;
+  }
+
+  img {
+    max-width: 150px;
+    min-height: 250px;
+  }
+
+  button {
+    max-width: 150px;
+  }
+}

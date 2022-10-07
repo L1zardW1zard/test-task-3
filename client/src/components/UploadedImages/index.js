@@ -1,13 +1,15 @@
 import React from "react";
 
-const UploadedImage = ({ img, i, onClickRemoveFile }) => {
+import styles from "./UploadedImages.module.scss";
+
+const UploadedImages = ({ img, i, onClickRemoveFile }) => {
   return (
-    <div className="uploaded-image-item">
+    <div className={styles.uploadedImageItem}>
       <img src={`http://localhost:3000${img}`} alt="uploaded" />
       <button
         type="button"
         onClick={onClickRemoveFile}
-        className="delete-btn"
+        className={styles.deleteBtn}
         id={i}
       >
         Delete
@@ -16,4 +18,4 @@ const UploadedImage = ({ img, i, onClickRemoveFile }) => {
   );
 };
 
-export default UploadedImage;
+export default UploadedImages;

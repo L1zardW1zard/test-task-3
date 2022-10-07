@@ -1,0 +1,64 @@
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+
+  input {
+    width: 32%;
+    height: 25px;
+    border: none;
+    padding: 0 10px;
+    margin: 5px;
+  }
+  input:focus {
+    outline: none;
+  }
+
+  textarea {
+    width: 32%;
+    height: 75px;
+    resize: none;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+  textarea:focus {
+    outline: none;
+  }
+
+  .uploadWrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+    width: 277px;
+    border: none;
+    margin: 5px;
+
+    button {
+      width: 138px;
+      padding: 0 6px;
+    }
+
+    .emptyBlock {
+      width: 100px;
+      height: 150px;
+      background-color: bisque;
+      margin: 0 0 5px 0;
+    }
+  }
+  button[type="submit"] {
+    width: 277px;
+    margin-top: 5px;
+    height: 25px;
+  }
+}
+
+.uploadedImagesWrapper {
+  display: flex;
+  max-width: 640px;
+  height: auto;
+}

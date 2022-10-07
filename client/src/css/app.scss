@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
 * {
   font-family: "Montserrat", sans-serif;
   padding: 0;
@@ -14,7 +15,7 @@
   }
 
   .selected {
-    color: rgb(198, 90, 69);
+    color: rgb(223, 113, 91);
   }
 }
 
@@ -22,118 +23,6 @@
   width: 800px;
   margin: auto;
   max-width: 980px;
-
-  header {
-    padding: 5px 0;
-    display: flex;
-    margin: auto;
-    justify-content: space-between;
-    align-items: center;
-
-    a {
-      font-weight: 500;
-      font-size: 16px;
-      text-decoration: none;
-      border: none;
-      background-color: rgb(56, 236, 236);
-      padding: 5px 10px;
-      transition: ease 200ms;
-      cursor: pointer;
-    }
-    a:hover {
-      background-color: rgb(93, 251, 251);
-    }
-  }
-
-  form {
-    display: flex;
-    flex-flow: column nowrap;
-    background-color: rgba(0, 0, 0, 0.1);
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0;
-
-    input {
-      width: 32%;
-      height: 25px;
-      border: none;
-      padding: 0 10px;
-      margin: 5px;
-    }
-    input:focus {
-      outline: none;
-    }
-
-    textarea {
-      width: 32%;
-      height: 75px;
-      resize: none;
-      border: none;
-      padding: 5px 10px;
-      margin: 5px;
-    }
-    textarea:focus {
-      outline: none;
-    }
-
-    .upload-wrapper {
-      display: flex;
-      justify-content: space-between;
-      flex-flow: column nowrap;
-      width: 277px;
-      border: none;
-      margin: 5px;
-
-      button {
-        width: 138px;
-        padding: 0 6px;
-      }
-
-      .empty-block {
-        width: 100px;
-        height: 150px;
-        background-color: bisque;
-        margin: 0 0 5px 0;
-      }
-    }
-    button[type="submit"] {
-      width: 277px;
-      margin-top: 5px;
-      height: 25px;
-    }
-
-    .uploaded-images-wrapper {
-      // display: grid;
-      // grid-template-columns: 1fr 1fr 1fr 1fr;
-      display: flex;
-
-      max-width: 640px;
-      height: auto;
-
-      .uploaded-image-item {
-        margin: 5px;
-        display: flex;
-        flex-flow: column nowrap;
-        .delete-btn {
-          margin: 0 5px;
-        }
-      }
-
-      * {
-        margin: 5px 0;
-      }
-
-      img {
-        max-width: 150px;
-        min-height: 250px;
-      }
-
-      button {
-        max-width: 150px;
-      }
-    }
-  }
 
   .container {
     text-align: center;
@@ -149,25 +38,6 @@
       a {
         color: #555;
       }
-
-      .hero-item {
-        display: flex;
-        flex-flow: column nowrap;
-        padding: 10px;
-        .hero-name {
-          height: 15%;
-          padding: 0 10px;
-        }
-
-        .image-prewiev {
-          height: 85%;
-          background-color: antiquewhite;
-          img {
-            height: 100%;
-            width: 100%;
-          }
-        }
-      }
     }
   }
 }
@@ -182,46 +52,5 @@
 
   li {
     margin: 0 10px;
-  }
-}
-
-.hero-item-full {
-  display: flex;
-  flex-flow: row wrap;
-  .hero-image-wrapper {
-    background-color: #ccc;
-    width: 30%;
-    img {
-      max-width: 100%;
-      height: 100%;
-    }
-  }
-
-  .hero-info {
-    width: 70%;
-    * {
-      margin: 10px 5px;
-    }
-  }
-  .button-container {
-    width: 100%;
-    .button-wrapper {
-      display: flex;
-      margin: auto;
-
-      button {
-        margin: 10px 0;
-        margin-right: 10px;
-        padding: 0 5px;
-      }
-      .delete-btn {
-        background-color: rgb(227, 134, 134);
-        border: 1px solid #666;
-        transition: ease 200ms;
-      }
-      .delete-btn:hover {
-        background-color: rgb(219, 78, 78);
-      }
-    }
   }
 }

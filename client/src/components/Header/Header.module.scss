@@ -1,0 +1,21 @@
+header {
+  padding: 5px 0;
+  display: flex;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+
+  a {
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    border: 1px solid black;
+    padding: 5px 10px;
+    transition: ease 200ms;
+    cursor: pointer;
+  }
+  a:hover {
+    background-color: #666;
+    color: #fff;
+  }
+}

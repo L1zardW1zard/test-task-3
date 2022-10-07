@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./css/app.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { setHeroAmount } from "./redux/slices/heroSlice";
 
 import Home from "./Pages/Home";
 import FullHero from "./Pages/FullHero";
 import Header from "./components/Header";
-import Crate from "./Pages/Crate";
+import Create from "./Pages/Create";
 
 function App() {
-  const [amount, setAmount] = useState(1); // Change to Redux-toolkit + check amount every change
+  const dispatch = useDispatch();
+  const amount = Number(useSelector((state) => state.hero.totalAmount));
 
   useEffect(() => {
     fetch(`/api/superheroes/amount`)
       .then((res) => res.json())
       .then((data) => {
-        setAmount(data);
+        dispatch(setHeroAmount(data));
       });
   }, []);
 
@@ -22,10 +25,10 @@ function App() {
     <div className="wrapper">
       <Header />
       <Routes>
-        <Route path="/" element={<Home pageAmount={amount} />} />
+        <Route path="/" element={<Home heroAmount={amount} />} />
         <Route path="/superhero/:id" element={<FullHero />} />
-        <Route path="/superhero/:id/edit" element={<Crate />} />
-        <Route path="/add" element={<Crate />} />
+        <Route path="/superhero/:id/edit" element={<Create />} />
+        <Route path="/add" element={<Create />} />
       </Routes>
     </div>
   );
