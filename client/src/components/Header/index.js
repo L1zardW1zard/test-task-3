@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setSelectedHero } from "../../redux/slices/heroSlice";
+import { setDefaultHero } from "../../redux/slices/heroSlice";
 
 import "./Header.module.scss";
 
@@ -9,7 +9,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const onClickClearSelectedHero = () => {
-    dispatch(setSelectedHero({}));
+    dispatch(setDefaultHero({}));
   };
 
   return (
