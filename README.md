@@ -1,4 +1,4 @@
-# Important
+# Note
 - Images saving locally inside server/static so images won't load after cloning (should work fine on deploy)
 ## How to launch
 - Copy master branch
