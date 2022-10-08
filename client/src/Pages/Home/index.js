@@ -23,15 +23,15 @@ const Home = ({ heroAmount }) => {
 
   return (
     <div className="container">
-      <div className="hero-container">
-        {heroes ? (
-          heroes.map((hero, i) => {
+      {heroes.length !== 0 ? (
+        <div className="hero-container">
+          {heroes.map((hero, i) => {
             return <Hero hero={hero} key={"hero" + i} />;
-          })
-        ) : (
-          <div>Can't find any superheroes</div>
-        )}
-      </div>
+          })}
+        </div>
+      ) : (
+        <div className="center">Can't find any superheroes</div>
+      )}
       {!!heroAmount && (
         <ReactPaginate
           className="pagination"

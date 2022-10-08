@@ -30,6 +30,13 @@
     background-color: rgba(0, 0, 0, 0.1);
     min-height: 236px;
 
+    .center {
+      height: 226px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .hero-container {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

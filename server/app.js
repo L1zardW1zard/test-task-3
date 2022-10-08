@@ -3,9 +3,6 @@ import mongoose from "mongoose";
 import router from "./routers/SuperheroRouter.js";
 import multer from "multer";
 
-import dotenv from "dotenv";
-dotenv.config();
-
 const app = express();
 
 const storage = multer.diskStorage({
@@ -23,10 +20,14 @@ app.use(express.json());
 app.use("/api", router);
 app.use("/static", express.static("static"));
 
+const PORT = 5000;
+
 async function startApp() {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
-    app.listen(process.env.PORT, () => {
+    await mongoose.connect(
+      "mongodb+srv://test-task-3:root@cluster0.9c4gdf4.mongodb.net/?retryWrites=true&w=majority"
+    );
+    app.listen(PORT, () => {
       console.log(`listening port ${PORT}`);
     });
   } catch (error) {
