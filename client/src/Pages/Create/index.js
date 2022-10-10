@@ -34,32 +34,26 @@ const Create = () => {
 
   const NicknameOnChange = (e) => {
     setHero({ ...hero, nickname: e.target.value });
-    //dispatch(setHeroNickname(e.target.value));
   };
   const RealNameOnChange = (e) => {
     setHero({ ...hero, real_name: e.target.value });
-    //dispatch(setHeroRealName(e.target.value));
   };
   const originDescriptionOnChange = (e) => {
     setHero({ ...hero, origin_description: e.target.value });
-    //dispatch(setHeroOriginDescription(e.target.value));
   };
   const superpowersOnChange = (e) => {
     setHero({ ...hero, superpowers: e.target.value });
-    //dispatch(setHeroSuperpowers(e.target.value));
   };
   const catchPhraseOnChange = (e) => {
     setHero({ ...hero, catch_phrase: e.target.value });
-    //dispatch(setHeroCatchPhrase(e.target.value));
   };
 
   const changeFileHandler = async (e) => {
     try {
       const formData = new FormData();
-      const file = e.target.files[0]; // inputFileRef.current.files[0]
+      const file = e.target.files[0];
       formData.append("image", file);
       const { data } = await axios.post("/upload", formData);
-      // dispatch(setHeroImages([...hero.images, data.url]));
       setHero({ ...hero, images: [...hero.images, data.url] });
     } catch (error) {
       console.log(error);
@@ -67,12 +61,6 @@ const Create = () => {
   };
 
   const onClickRemoveFile = (e) => {
-    // dispatch(
-    //   setHeroImages(
-    //     hero.images.filter((img) => img !== hero.images[e.target.id])
-    //   )
-    // );
-
     setHero({
       ...hero,
       images: hero.images.filter((img) => img !== hero.images[e.target.id]),

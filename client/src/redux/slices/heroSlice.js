@@ -41,24 +41,6 @@ export const heroSlice = createSlice({
     setSelectedHero(state, action) {
       state.selectedHero = action.payload;
     },
-    setHeroNickname(state, action) {
-      state.selectedHero.nickname = action.payload;
-    },
-    setHeroRealName(state, action) {
-      state.selectedHero.real_name = action.payload;
-    },
-    setHeroOriginDescription(state, action) {
-      state.selectedHero.origin_description = action.payload;
-    },
-    setHeroSuperpowers(state, action) {
-      state.selectedHero.superpowers = action.payload;
-    },
-    setHeroCatchPhrase(state, action) {
-      state.selectedHero.catch_phrase = action.payload;
-    },
-    setHeroImages(state, action) {
-      state.selectedHero.images = action.payload;
-    },
     setDefaultHero(state) {
       state.selectedHero = {
         nickname: "",
