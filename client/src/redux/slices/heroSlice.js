@@ -83,12 +83,6 @@ export const {
   decrementHeroAmount,
   setItems,
   setSelectedHero,
-  setHeroNickname,
-  setHeroRealName,
-  setHeroOriginDescription,
-  setHeroSuperpowers,
-  setHeroCatchPhrase,
-  setHeroImages,
   setDefaultHero,
 } = heroSlice.actions;
 

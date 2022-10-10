@@ -1,34 +1,37 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "../../../redux/store";
 import { Provider } from "react-redux";
 
+import "@testing-library/jest-dom";
+
 import Home from "../index.js";
 
-it("Has pagination", async () => {
-  render(
+const MockHomePage = () => {
+  return (
     <BrowserRouter>
       <Provider store={store}>
         <Home heroAmount={16} />
       </Provider>
     </BrowserRouter>
   );
+};
+
+it("Has pagination", async () => {
+  render(<MockHomePage />);
 
   const paginationList = await screen.findByRole("list");
 
   expect(paginationList).toHaveClass("pagination");
 });
 
-// it("Has hero blocks", async () => {
-//   render(
-//     <BrowserRouter>
-//       <Provider store={store}>
-//         <Home heroAmount={16} />
-//       </Provider>
-//     </BrowserRouter>
-//   );
+///////// I don't know how it works help pls
+it("Has hero blocks", async () => {
+  render(<MockHomePage />);
 
-//   const heroList = await screen.findAllByTestId("hero");
-//   screen.debug();
-// });
+  screen.debug();
+  expect(await screen.findAllByTestId("hero", {}, { timeout: 3000 }));
+
+  screen.debug();
+});

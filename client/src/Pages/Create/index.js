@@ -6,12 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   incrementHeroAmount,
   setSelectedHero,
-  setHeroImages,
-  setHeroNickname,
-  setHeroRealName,
-  setHeroOriginDescription,
-  setHeroSuperpowers,
-  setHeroCatchPhrase,
   setDefaultHero,
 } from "../../redux/slices/heroSlice";
 
@@ -22,7 +16,16 @@ const Create = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const hero = useSelector((state) => state.hero.selectedHero);
+  const heroRedux = useSelector((state) => state.hero.selectedHero);
+
+  const [hero, setHero] = useState({
+    nickname: "",
+    real_name: "",
+    origin_description: "",
+    superpowers: "",
+    catch_phrase: "",
+    images: [],
+  });
 
   const [loading, setLoading] = useState(false);
   const inputFileRef = useRef(null);
@@ -30,19 +33,24 @@ const Create = () => {
   const isEditing = Boolean(id);
 
   const NicknameOnChange = (e) => {
-    dispatch(setHeroNickname(e.target.value));
+    setHero({ ...hero, nickname: e.target.value });
+    //dispatch(setHeroNickname(e.target.value));
   };
   const RealNameOnChange = (e) => {
-    dispatch(setHeroRealName(e.target.value));
+    setHero({ ...hero, real_name: e.target.value });
+    //dispatch(setHeroRealName(e.target.value));
   };
   const originDescriptionOnChange = (e) => {
-    dispatch(setHeroOriginDescription(e.target.value));
+    setHero({ ...hero, origin_description: e.target.value });
+    //dispatch(setHeroOriginDescription(e.target.value));
   };
   const superpowersOnChange = (e) => {
-    dispatch(setHeroSuperpowers(e.target.value));
+    setHero({ ...hero, superpowers: e.target.value });
+    //dispatch(setHeroSuperpowers(e.target.value));
   };
   const catchPhraseOnChange = (e) => {
-    dispatch(setHeroCatchPhrase(e.target.value));
+    setHero({ ...hero, catch_phrase: e.target.value });
+    //dispatch(setHeroCatchPhrase(e.target.value));
   };
 
   const changeFileHandler = async (e) => {
@@ -51,18 +59,24 @@ const Create = () => {
       const file = e.target.files[0]; // inputFileRef.current.files[0]
       formData.append("image", file);
       const { data } = await axios.post("/upload", formData);
-      dispatch(setHeroImages([...hero.images, data.url]));
+      // dispatch(setHeroImages([...hero.images, data.url]));
+      setHero({ ...hero, images: [...hero.images, data.url] });
     } catch (error) {
       console.log(error);
     }
   };
 
   const onClickRemoveFile = (e) => {
-    dispatch(
-      setHeroImages(
-        hero.images.filter((img) => img !== hero.images[e.target.id])
-      )
-    );
+    // dispatch(
+    //   setHeroImages(
+    //     hero.images.filter((img) => img !== hero.images[e.target.id])
+    //   )
+    // );
+
+    setHero({
+      ...hero,
+      images: hero.images.filter((img) => img !== hero.images[e.target.id]),
+    });
   };
 
   const submitHandler = async (e) => {
@@ -86,12 +100,14 @@ const Create = () => {
   };
 
   useEffect(() => {
+    setHero(heroRedux);
     if (id) {
       axios.get("/api/superhero/" + id).then(({ data }) => {
         dispatch(setSelectedHero(data));
+        setHero(data);
       });
     }
-  }, []);
+  }, [id]);
 
   return (
     <>
