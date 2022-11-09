@@ -1,33 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  decrementHeroAmount,
-  setSelectedHero,
-} from "../../redux/slices/heroSlice";
+import { deleteHero, fetchOneHeroById } from "../../redux/slices/heroSlice";
 
 import styles from "./FullHero.module.scss";
 
 const FullHero = () => {
   const hero = useSelector((state) => state.hero.selectedHero);
-  //const [hero, setHero] = useState({});
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/superhero/" + id).then((res) => {
-      dispatch(setSelectedHero(res.data));
-    });
-  }, [id]);
+    dispatch(fetchOneHeroById(id));
+  }, [id, dispatch]);
 
   const onClickDelete = async () => {
-    await axios.delete("/api/superhero/" + id); // change to redux-toolkit
+    dispatch(deleteHero(id));
     navigate("/");
-    dispatch(decrementHeroAmount());
   };
 
   const onClickEdit = () => {
@@ -38,18 +30,10 @@ const FullHero = () => {
     <div className={styles.heroItemFull}>
       <div className={styles.buttonContainer}>
         <div className={styles.buttonWrapper}>
-          <button
-            type="button"
-            className={styles.editBtn}
-            onClick={onClickEdit}
-          >
+          <button type="button" className={styles.editBtn} onClick={onClickEdit}>
             Edit
           </button>
-          <button
-            type="button"
-            className={styles.deleteBtn}
-            onClick={onClickDelete}
-          >
+          <button type="button" className={styles.deleteBtn} onClick={onClickDelete}>
             Delete
           </button>
         </div>

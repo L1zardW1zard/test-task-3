@@ -12,10 +12,20 @@ class SuperheroController {
     }
   }
 
-  async getAll(req, res) {
+  async getAllOnPage(req, res) {
     try {
       const page = parseInt(req.query.page);
-      const superheroes = await HeroService.getAll(page);
+      const superheroes = await HeroService.getAllOnPage(page);
+      const totalAmount = await HeroService.getTotalAmount();
+      res.json({ superheroes, totalAmount });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  async getAll(res) {
+    try {
+      const superheroes = await HeroService.getAll();
       res.json(superheroes);
     } catch (error) {
       res.status(500).json(error);
@@ -46,11 +56,7 @@ class SuperheroController {
       if (!superhero._id) {
         res.status(400).json({ message: "Id not found" });
       }
-      const updatedSuperhero = await Superhero.findByIdAndUpdate(
-        superhero._id,
-        superhero,
-        { new: true }
-      );
+      const updatedSuperhero = await Superhero.findByIdAndUpdate(superhero._id, superhero, { new: true });
       return res.json(updatedSuperhero);
     } catch (error) {
       res.status(500).json(error);

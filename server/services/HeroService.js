@@ -6,10 +6,14 @@ class HeroService {
     return createrHero;
   }
 
-  async getAll(page = 1) {
+  async getAllOnPage(page = 1) {
     const PAGE_SIZE = 5;
     const skip = (page - 1) * PAGE_SIZE;
-    return Superhero.find({}).skip(skip).limit(PAGE_SIZE);
+    return await Superhero.find({}).skip(skip).limit(PAGE_SIZE);
+  }
+
+  async getAll() {
+    return await Superhero.find({});
   }
 
   async getTotalAmount() {
@@ -31,11 +35,7 @@ class HeroService {
       if (!superhero._id) {
         res.status(400).json({ message: "Id not found" });
       }
-      const updatedSuperhero = await Superhero.findByIdAndUpdate(
-        superhero._id,
-        superhero,
-        { new: true }
-      );
+      const updatedSuperhero = await Superhero.findByIdAndUpdate(superhero._id, superhero, { new: true });
       return res.json(updatedSuperhero);
     } catch (error) {
       res.status(500).json(error);

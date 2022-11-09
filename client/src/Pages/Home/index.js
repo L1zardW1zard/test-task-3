@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchHeroes } from "../../redux/slices/heroSlice";
+import { fetchHeroes, setCurrentPage } from "../../redux/slices/heroSlice";
 
 import Hero from "../../components/Hero";
 
-const Home = ({ heroAmount }) => {
+const Home = () => {
   const ITEMS_PER_PAGE = 5;
   const dispatch = useDispatch();
 
   const heroes = useSelector((state) => state.hero.items);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const currentPage = useSelector((state) => state.hero.currentPage);
+  const heroAmount = useSelector((state) => state.hero.totalAmount);
 
   useEffect(() => {
-    try {
-      dispatch(fetchHeroes(currentPage));
-    } catch (error) {
-      console.log(error);
-    }
-  }, [currentPage]);
+    dispatch(fetchHeroes(currentPage));
+  }, [currentPage, dispatch]);
 
   return (
     <div className="container">
@@ -32,18 +28,15 @@ const Home = ({ heroAmount }) => {
       ) : (
         <div className="center">Can't find any superheroes</div>
       )}
-      {!!heroAmount && (
+      {heroAmount && (
         <ReactPaginate
+          initialPage={currentPage - 1}
           className="pagination"
-          breakLabel="..."
-          nextLabel=">"
           onPageChange={(event) => {
-            setCurrentPage(event.selected + 1);
+            dispatch(setCurrentPage(event.selected + 1));
           }}
           pageRangeDisplayed={ITEMS_PER_PAGE}
           pageCount={Math.ceil(heroAmount / ITEMS_PER_PAGE)}
-          previousLabel="<"
-          renderOnZeroPageCount={null}
         />
       )}
     </div>

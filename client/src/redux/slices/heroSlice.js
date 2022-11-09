@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
+  currentPage: 1,
   totalAmount: 0,
   items: [],
   selectedHero: {
@@ -14,33 +15,40 @@ const initialState = {
   },
 };
 
-export const fetchHeroes = createAsyncThunk(
-  "hero/fetchHeroes",
-  async (currentPage) => {
+export const fetchHeroes = createAsyncThunk("hero/fetchHeroes", async (currentPage) => {
+  try {
     const { data } = await axios.get(`/api/superheroes/?page=${currentPage}`);
     return data;
+  } catch (error) {
+    console.log(error);
+    return;
   }
-);
+});
+
+export const fetchOneHeroById = createAsyncThunk("hero/fetchOneHeroById", async (id) => {
+  try {
+    const { data } = await axios.get("/api/superhero/" + id);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+});
+
+export const deleteHero = createAsyncThunk("hero/deleteHero", async (id) => {
+  try {
+    const { data } = await axios.delete("/api/superhero/" + id);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+});
 
 export const heroSlice = createSlice({
   name: "hero",
   initialState,
   reducers: {
-    setHeroAmount(state, action) {
-      state.totalAmount = action.payload;
-    },
-    incrementHeroAmount(state) {
-      state.totalAmount++;
-    },
-    decrementHeroAmount(state) {
-      state.totalAmount--;
-    },
-    setItems(state, action) {
-      state.items = action.payload;
-    },
-    setSelectedHero(state, action) {
-      state.selectedHero = action.payload;
-    },
     setDefaultHero(state) {
       state.selectedHero = {
         nickname: "",
@@ -51,21 +59,33 @@ export const heroSlice = createSlice({
         images: [],
       };
     },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
+    setTotalAmount(state, action) {
+      state.totalAmount = action.payload;
+    },
+    decTotalAmount(state) {
+      state.totalAmount--;
+    },
+    incTotalAmount(state) {
+      state.totalAmount++;
+    },
   },
   extraReducers: {
     [fetchHeroes.fulfilled]: (state, action) => {
-      state.items = action.payload;
+      state.items = action.payload.superheroes;
+      state.totalAmount = action.payload.totalAmount;
+    },
+    [fetchOneHeroById.fulfilled]: (state, action) => {
+      state.selectedHero = action.payload;
+    },
+    [deleteHero.fulfilled]: (state) => {
+      state.totalAmount--;
     },
   },
 });
 
-export const {
-  setHeroAmount,
-  incrementHeroAmount,
-  decrementHeroAmount,
-  setItems,
-  setSelectedHero,
-  setDefaultHero,
-} = heroSlice.actions;
+export const { setTotalAmount, decTotalAmount, incTotalAmount, setDefaultHero, setCurrentPage } = heroSlice.actions;
 
 export default heroSlice.reducer;

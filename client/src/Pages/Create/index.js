@@ -3,11 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  incrementHeroAmount,
-  setSelectedHero,
-  setDefaultHero,
-} from "../../redux/slices/heroSlice";
+import { incTotalAmount, setDefaultHero, fetchOneHeroById } from "../../redux/slices/heroSlice";
 
 import styles from "./Create.module.scss";
 import UploadedImages from "../../components/UploadedImages";
@@ -71,7 +67,6 @@ const Create = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      console.log("Submit event");
 
       const superhero = hero;
       const { data } = isEditing
@@ -82,54 +77,32 @@ const Create = () => {
         setLoading(false);
         dispatch(setDefaultHero({}));
         navigate("/");
-        if (!isEditing) dispatch(incrementHeroAmount());
+        if (!isEditing) dispatch(incTotalAmount());
       }
     } catch (error) {}
   };
 
   useEffect(() => {
-    setHero(heroRedux);
-    if (id) {
-      axios.get("/api/superhero/" + id).then(({ data }) => {
-        dispatch(setSelectedHero(data));
-        setHero(data);
-      });
+    if (hero.nickname === "") {
+      if (id && heroRedux.nickname === "") {
+        dispatch(fetchOneHeroById(id));
+      }
+      setHero(heroRedux);
     }
-  }, [id]);
+  }, [id, dispatch, heroRedux, hero]);
 
   return (
     <>
       <form onSubmit={submitHandler}>
-        <input
-          required
-          type="text"
-          placeholder="Nickname"
-          value={hero.nickname}
-          onChange={NicknameOnChange}
-        />
-        <input
-          type="text"
-          placeholder="Real Name"
-          value={hero.real_name}
-          onChange={RealNameOnChange}
-        />
+        <input required type="text" placeholder="Nickname" value={hero.nickname} onChange={NicknameOnChange} />
+        <input type="text" placeholder="Real Name" value={hero.real_name} onChange={RealNameOnChange} />
         <textarea
           placeholder="Origin description"
           value={hero.origin_description}
           onChange={originDescriptionOnChange}
         ></textarea>
-        <input
-          type="text"
-          placeholder="Superpowers"
-          value={hero.superpowers}
-          onChange={superpowersOnChange}
-        />
-        <input
-          type="text"
-          placeholder="Catch phrase"
-          value={hero.catch_phrase}
-          onChange={catchPhraseOnChange}
-        />
+        <input type="text" placeholder="Superpowers" value={hero.superpowers} onChange={superpowersOnChange} />
+        <input type="text" placeholder="Catch phrase" value={hero.catch_phrase} onChange={catchPhraseOnChange} />
         <div className={styles.uploadWrapper}>
           <button type="button" onClick={() => inputFileRef.current.click()}>
             Upload Image
@@ -139,14 +112,7 @@ const Create = () => {
           <>
             <div className={styles.uploadedImagesWrapper}>
               {hero.images.map((img, i) => {
-                return (
-                  <UploadedImages
-                    img={img}
-                    key={i}
-                    i={i}
-                    onClickRemoveFile={onClickRemoveFile}
-                  />
-                );
+                return <UploadedImages img={img} key={i} i={i} onClickRemoveFile={onClickRemoveFile} />;
               })}
             </div>
           </>
