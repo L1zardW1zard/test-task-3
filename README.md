@@ -5,7 +5,7 @@
 - Install packages inside /server and /client folders (```npm i```)
 - Launch server with ```npm start``` command
 - Launch client with ```npm start``` command
-## Working on better (?) solutions in other branch ```after``` deadline
+### Working on better (?) solutions in other branch ```after``` deadline
 # Objective
 We want to create a superhero database. For that, we want a web application that allows us to
 do CRUD operations of the superhero model
