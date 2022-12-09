@@ -1,4 +1,5 @@
-#Superhero database
+# Superhero database
+
 ## How to launch
 - Clone ```master``` branch
 - Install packages inside /server and /client folders (```npm i```)
